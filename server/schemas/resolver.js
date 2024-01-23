@@ -47,29 +47,22 @@ const resolvers = {
     },
 
     //If the user it's not logged in will throw an authentication error if the user exist will  save the book that user have been selected.
-    saveBook: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findOneAndUpdate(
-            {_id: context.user._id},
-            { $addToSet: { savedBooks: args }},
-            { new: true, runValidators: true }
-        )
-        return user
-      }
-      throw AuthenticationError;
+    saveBook: async (parent, {user, input}) => {
+      return User.findOneAndUpdate(
+        {_id: context.user._id},
+        { $addToSet: { savedBooks: args }},
+        { new: true, runValidators: true }
+      );
     },
-
+    
     //If the user it's not logged in will throw an authentication error if the user exist will remove the book that user have been selected.
-    removeBook: async (parent, args, context) => {
-      if(context.user){
-        const user = await User.findOneAndUpdate(
-          { _id: thoughtId },
-          { $pull: { comments: { _id: commentId } } },
-          { new: true } 
-        );
-      }
-      throw AuthenticationError;
-    },
+    removeBook: async (parent, {user, bookId}) => {
+      return User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: { savedBooks: { bookId: bookId } } },
+        { new: true } 
+      );
+    }
   }
 } 
 module.exports = resolvers;
