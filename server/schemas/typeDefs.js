@@ -12,11 +12,11 @@ const typeDefs = `
 
   imput SaveBookInput{
     bookId: ID!, 
-    authors: [String]!, 
-    description: String!, 
-    title: String!, 
-    image: String!, 
-    link: String!
+    authors: [String]
+    description: String 
+    title: String! 
+    image: String 
+    link: String
   }
 
   User {
